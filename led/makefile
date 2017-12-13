@@ -14,16 +14,21 @@ DEFINES := -DUSE_STDPERIPH_DRIVER
 COPT  := -c -O0 $(HWFLAGS) $(INCLUDES) $(DEFINES)
 LDOPT := -Tstm32_flash.ld
 
+PERIPH := $(FWDIR)/Libraries/STM32F4xx_StdPeriph_Driver/src
+
+VPATH = $(PERIPH)
+
+PFILES := $(patsubst %,stm32f4xx_%.o,rcc exti gpio syscfg)
 
 all: a.out
 
-a.out: main.o stm32f4_discovery.o
+a.out: main.o stm32f4_discovery.o $(PFILES) misc.o
 	$(LD) $(LDOPT) $^ -o $@
 
-%.o: %.c
+%.o: %.c makefile
 	$(CC) $(COPT) $< -o $@
 
-%.o: %.s
+%.o: %.s makefile
 	$(AS) $< -o $@
 
 
