@@ -1,7 +1,7 @@
 
 #include "stm32f4_discovery.h"
 
-LED_TypeDef LEDS[] = {LED4, LED3, LED5, LED4, LED6};
+Led_TypeDef LEDS[] = {LED4, LED3, LED5, LED4, LED6};
 
 int main(void) {
   int idx = 0;
@@ -16,7 +16,7 @@ int main(void) {
     for (i = 0; i < 20000; i++) {}
     STM_EVAL_LEDOff(LEDS[idx]);
     if (++idx == nLEDs) idx = 0;
-    STM_EVAL_LEDOn(LED[idx]);
+    STM_EVAL_LEDOn(LEDS[idx]);
   }
   return 0;
 }
