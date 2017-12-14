@@ -20,18 +20,25 @@ VPATH = $(PERIPH)
 
 PFILES := $(patsubst %,stm32f4xx_%.o,rcc exti gpio syscfg)
 
-all: a.out
+OBJDIR := obj
 
-a.out: main.o stm32f4_discovery.o $(PFILES) misc.o
-	$(LD) $(LDOPT) $^ -o $@
+all: $(OBJDIR) a.out
 
-%.o: %.c makefile
+OBJS := main.o stm32f4_discovery.o $(PFILES) misc.o startup_stm32f4xx.o system_stm32f4xx.o
+
+a.out: $(patsubst %,$(OBJDIR)/%,$(OBJS))
+	$(LD) $(LDOPT) $^ -o $@ -mfloat-abi=hard
+
+$(OBJDIR)/%.o: %.c makefile
 	$(CC) $(COPT) $< -o $@
 
-%.o: %.s makefile
+$(OBJDIR)/%.o: %.s makefile
 	$(AS) $< -o $@
 
+$(OBJDIR): ; mkdir $@
 
 clean:
-	@del /q *.o
+	@del /q $(OBJDIR)/*.o
 	@del /q a.out
+
+print-%: ; @echo $* = $($*)

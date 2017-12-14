@@ -20,3 +20,8 @@ int main(void) {
   }
   return 0;
 }
+
+
+void _exit(int a) {
+  while (1) {}
+}
