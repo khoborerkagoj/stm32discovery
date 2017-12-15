@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo '====> Moving changes to master'
+git checkout master
+echo '====> Merging devel branch'
+git merge devel
+echo '====> Pushing to remote'
+git push
+echo '====> Switching back to devel branch'
+git checkout devel
